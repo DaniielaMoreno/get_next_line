@@ -14,5 +14,15 @@
 
 char	*get_next_line(int fd)
 {
-	
+	char	*line;
+	static char	*baby_buffer;
+
+	if (fd < 0)
+		return (NULL);
+	baby_buffer = malloc(BUFFER_SIZE + 1 * sizeof(char));
+	if (!baby_buffer)
+	{
+		return (NULL);
+		free(baby_buffer);
+	}
 }
