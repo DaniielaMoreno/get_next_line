@@ -14,4 +14,6 @@
 # define BUFFER_SIZE 3
 #endif
 
+#include <stdio.h>
+
 char	*get_next_line(int fd);
