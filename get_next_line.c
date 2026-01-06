@@ -15,14 +15,15 @@
 char	*get_next_line(int fd)
 {
 	char	*line;
-	static char	*baby_buffer;
+	static char	*base_buffer;
 
 	if (fd < 0)
 		return (NULL);
-	baby_buffer = malloc(BUFFER_SIZE + 1 * sizeof(char));
-	if (!baby_buffer)
+	base_buffer = malloc(BUFFER_SIZE + 1 * sizeof(char));
+	if (!base_buffer)
 	{
 		return (NULL);
-		free(baby_buffer);
+		free(base_buffer);
 	}
+	line = read(fd, base_buffer, 12);
 }
