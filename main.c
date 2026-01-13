@@ -21,10 +21,10 @@ int	main(void)
 	char	*line;
 
 	i = 0;
-	fd = open("poem.txt", O_RDONLY);
+	fd = open("bigline_no_nl.txt", O_RDONLY);
 	if (fd < 0)
 	{
-		return (NULL);
+		return (0);
 		printf("File not found");
 	}
 	while (1)
@@ -33,7 +33,9 @@ int	main(void)
 		if (!line)
 			break;
 		i++;
-		prinft("%s", line);
+		printf("[%d]:%s\n", i, line);
+		line = NULL;
 	}
+	close (fd);
 	return (0);
 }

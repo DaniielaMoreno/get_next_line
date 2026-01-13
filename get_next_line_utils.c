@@ -12,13 +12,70 @@
 
 #include "get_next_line.h"
 
-void	ft_bzero(void *str, size_t n)
+size_t	ft_strlen(const char *s)
+{
+	size_t	i;
+
+	i = 0;
+	while (s[i])
+		i++;
+	return (i);
+}
+
+char	*ft_strchr(const char *s, int c)
+{
+	char	b;
+
+	b = (char)c;
+	while (*s)
+	{
+		if (*s == b)
+			return ((char *)s);
+		s++;
+	}
+	if (b == '\0')
+		return ((char *)s);
+	return (0);
+}
+
+char	*ft_strjoin(char const *s1, char const *s2)
+{
+	size_t	i;
+	size_t	j;
+	char	*s3;
+
+	s3 = malloc(ft_strlen(s1) + ft_strlen(s2) + 1);
+	if (!s3)
+		return (NULL);
+	i = 0;
+	j = 0;
+	while (s1[i] != '\0')
+	{
+		s3[j] = s1[i];
+		j++;
+		i++;
+	}
+	i = 0;
+	while (s2[i] != '\0')
+	{
+		s3[j] = s2[i];
+		j++;
+		i++;
+	}
+	s3[j] = '\0';
+	return (s3);
+}
+
+void	*ft_memset(void *str, int value, size_t n)
 {
 	unsigned char	*s;
+	unsigned char	v;
 
 	s = (unsigned char *)str;
+	v = (unsigned char)value;
 	while (n--)
-		*s++ = '\0';
+		*s++ = v;
+	return (str);
 }
 
 void	*ft_calloc(size_t count, size_t size)
@@ -38,6 +95,6 @@ void	*ft_calloc(size_t count, size_t size)
 	ptr = malloc(total);
 	if (!ptr)
 		return (NULL);
-	ft_bzero(ptr, total);
+	ft_memset(ptr, 0, total);
 	return (ptr);
 }

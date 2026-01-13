@@ -12,18 +12,102 @@
 
 #include "get_next_line.h"
 
+char	*ft_read(int fd, char *raw_line, int *bytes_read)
+{
+	char	*buffer;
+	char	*temp;
+
+	if (!raw_line)
+		raw_line = ft_calloc(1, sizeof(char));
+	buffer = ft_calloc(BUFFER_SIZE + 1, sizeof(char));
+	if (!buffer)
+        	return (free(raw_line), NULL);
+	*bytes_read = 1;
+	while (!ft_strchr(raw_line, '\n') && *bytes_read != 0)
+	{
+		*bytes_read = read(fd, buffer, BUFFER_SIZE);
+		if (*bytes_read < 0)
+            		return (free(buffer), free(raw_line), NULL);
+		buffer[*bytes_read] = '\0';
+		temp = raw_line;
+		raw_line = ft_strjoin(temp, buffer);
+		if (!raw_line)
+            		return (free(buffer), NULL);
+		free(temp);
+	}
+	free(buffer);
+	return (raw_line);
+}
+
+char	*ft_clean_line(char *raw_line)
+{
+	int	i;
+	char	*clean_line;
+	
+	if (!raw_line || !raw_line[0])
+		return (NULL);
+	i = 0;
+	while(raw_line[i] && raw_line[i] != '\n')
+		i++;
+	clean_line = ft_calloc(i + 2, sizeof(char));
+	if (!clean_line)
+        	return (NULL);
+	i = 0;
+	while(raw_line[i] && raw_line[i] != '\n')
+	{
+		clean_line[i] = raw_line[i];
+		i++;
+	}
+	if (raw_line[i] == '\n')
+	{
+		clean_line[i] = raw_line[i];
+		i++;
+	}
+	//clean_line[i] = '\0';
+	return (clean_line);
+}
+
+char	*ft_rest_line(char *raw_line)
+{
+	size_t	i;
+	size_t	len;
+	char	*rest_line;
+
+	i = 0;
+	while (raw_line[i] != '\0' && raw_line[i] != '\n')
+		i++;
+	if (!raw_line[i])
+        	return (free(raw_line), NULL);
+	len = ft_strlen(raw_line) - i;
+	rest_line = ft_calloc((len + 1), sizeof(char));
+	if (!rest_line)
+        	return (NULL);
+	i++;
+	len = 0;
+	while (raw_line[i])
+		rest_line[len++] = raw_line[i++];
+	free (raw_line);
+	return (rest_line);
+}
+
 char	*get_next_line(int fd)
 {
-	char	*line;
-	static char	*base_buffer;
+	static char	*line;
+	char	*next_line;
+	int	bytes_read;
 
-	if (fd < 0)
+	if (fd < 0 || BUFFER_SIZE <= 0)
 		return (NULL);
-	base_buffer = malloc(BUFFER_SIZE + 1 * sizeof(char));
-	if (!base_buffer)
+	line = ft_read(fd, line, &bytes_read);
+	if (!line)
+		return (NULL);
+	next_line = ft_clean_line(line);
+	line = ft_rest_line(line);
+	if (!next_line)
 	{
+		free(line);
+		line = NULL;
 		return (NULL);
-		free(base_buffer);
 	}
-	line = read(fd, base_buffer, 12);
+	return (next_line);
 }
