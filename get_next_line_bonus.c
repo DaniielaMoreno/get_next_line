@@ -1,7 +1,7 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   get_next_line.c                                    :+:      :+:    :+:   */
+/*   get_next_line_bonus.c                              :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: danimore <danimore@student.42berlin.d      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
@@ -10,7 +10,7 @@
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "get_next_line.h"
+#include "get_next_line_bonus.h"
 
 char	*ft_read(int fd, char *raw_line, int *bytes_read)
 {
@@ -82,7 +82,7 @@ char	*ft_rest_line(char *raw_line)
 	len = ft_strlen(raw_line) - i;
 	rest_line = ft_calloc((len + 1), sizeof(char));
 	if (!rest_line)
-		return (NULL);
+		return (free(raw_line), NULL);
 	len = 0;
 	while (raw_line[i])
 		rest_line[len++] = raw_line[i++];
@@ -92,21 +92,21 @@ char	*ft_rest_line(char *raw_line)
 
 char	*get_next_line(int fd)
 {
-	static char	*line;
+	static char	*line[OPEN_MAX];
 	char		*next_line;
 	int			bytes_read;
 
-	if (fd < 0 || BUFFER_SIZE <= 0)
+	if (fd < 0 || fd >= OPEN_MAX || BUFFER_SIZE <= 0)
 		return (NULL);
-	line = ft_read(fd, line, &bytes_read);
-	if (!line)
+	line[fd] = ft_read(fd, line[fd], &bytes_read);
+	if (!line[fd])
 		return (NULL);
-	next_line = ft_clean_line(line);
-	line = ft_rest_line(line);
+	next_line = ft_clean_line(line[fd]);
+	line[fd] = ft_rest_line(line[fd]);
 	if (!next_line)
 	{
-		free(line);
-		line = NULL;
+		free(line[fd]);
+		line[fd] = NULL;
 		return (NULL);
 	}
 	return (next_line);
