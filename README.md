@@ -28,7 +28,7 @@ The core functionality includes:
 
 The following diagram illustrates the main process flow of the `get_next_line` function:
 
-![get_next_line Flow Diagram](https://github.com/DaniielaMoreno/get_next_line/blob/main/img/Visual_representation.png?raw=true)
+![get_next_line Flow Diagram](https://github.com/DaniielaMoreno/get_next_line/blob/main/img/Visual%20explanation%20by%20Daniela%20Moreno.png?raw=true)
 
 ## Bonus Part
 
