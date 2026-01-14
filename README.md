@@ -24,6 +24,12 @@ The core functionality includes:
 - **`ft_rest_line()`**: Preserves remaining data for the next call
 - **Utility Functions**: String manipulation helpers (`ft_strlen`, `ft_strchr`, `ft_strjoin`, `ft_memset` and `ft_calloc`)
 
+## Visual Representation
+
+The following diagram illustrates the main process flow of the `get_next_line` function:
+
+![get_next_line Flow Diagram](https://github.com/DaniielaMoreno/get_next_line/blob/main/img/Visual_representation.png?raw=true)
+
 ## Bonus Part
 
 The bonus implementation includes all mandatory features plus:
