@@ -32,11 +32,10 @@ The following diagram illustrates the main process flow of the `get_next_line` f
 
 ## Bonus Part
 
-The bonus implementation includes all mandatory features plus:
+The bonus implementation includes:
 
 - **Multiple File Descriptor Support**: Uses an array of static buffers to handle reading from multiple file descriptors simultaneously without interference
-- **Optimized Buffer Management**: Each file descriptor maintains its own buffer, allowing seamless switching between different files
-- **Enhanced Memory Efficiency**: Properly manages separate states for concurrent file reading operations
+- **Use of only one static variable**
 
 ## Instructions
 
@@ -45,7 +44,7 @@ The bonus implementation includes all mandatory features plus:
 The project should be compiled with standard flags:
 
 ```bash
-gcc -Wall -Wextra -Werror get_next_line.c get_next_line_utils.c -o program
+gcc gcc -Wall -Werror -Wextra -D BUFFER_SIZE=xx get_next_line.c get_next_line_utils.c
 ```
 
 ### Key Parameters
@@ -59,13 +58,13 @@ gcc -Wall -Wextra -Werror get_next_line.c get_next_line_utils.c -o program
 
 The `get_next_line` implementation uses a static buffer approach combined with cumulative string joining:
 
-1. **Initialization**: Each call checks if a static buffer already contains leftover data from the previous read. If not, create a fresh buffer.
+1. **Initialization**: Each call checks if the static buffer (raw_line) already contains leftover data from the previous read. If not, allocate memory for the static buffer and create another buffer to store de chunks of BUFFER_SIZE of each read.
 
-2. **Incremental Reading**: Read `BUFFER_SIZE` bytes at a time from the file descriptor into a temporary buffer. This prevents unnecessary large allocations and is memory-efficient.
+2. **Newline Detection**: Before each read, check if the accumulated data contains `\n` using `ft_strchr()`. Stop reading once found or reached EOF.
 
-3. **Data Accumulation**: Join the static buffer with the newly read data using `ft_strjoin()`. This builds up the raw line incrementally until a newline character is found.
+3. **Incremental Reading**: Read `BUFFER_SIZE` bytes at a time from the file descriptor into the buffer.
 
-4. **Newline Detection**: After each read, check if the accumulated data contains `\n` using `ft_strchr()`. Stop reading once found.
+4. **Data Accumulation**: Join the static buffer with the newly read data using `ft_strjoin()`. This builds up the "raw_line" incrementally.
 
 5. **Line Extraction**: `ft_clean_line()` extracts only the current line (from start to and including the newline), removing unnecessary data.
 
@@ -93,35 +92,26 @@ The bonus version extends the static buffer concept to support multiple file des
 
 - **Parallel Buffers**: Instead of a single static `line` variable, maintain an array of buffers indexed by file descriptor
 - **Independent States**: Each file descriptor has its own buffer state, allowing you to call `get_next_line()` on fd=3, then fd=5, then fd=3 again without losing data
-- **Array Bounds**: The array size accommodates typical file descriptor ranges (usually 0-255 or based on `OPEN_MAX`)
+- **Array Bounds**: The array size accommodates typical file descriptor ranges (based on `OPEN_MAX`)
 
 This allows reading from multiple files simultaneously without manual state management.
 
 ## Resources
 
-### Documentation
-
-- [man read](https://linux.die.net/man/2/read): Understanding the read() system call
-- [man malloc](https://linux.die.net/man/3/malloc): Dynamic memory allocation
-- [C Standard Library](https://en.cppreference.com/w/c): String and memory functions
-
 ### Articles & References
 
-- File I/O in C: Understanding file descriptors and buffering
-- Memory management best practices in C
-- Static variables in C and their scope/lifetime
+- Memory management best practices in C - GeeksforGeeks(https://www.geeksforgeeks.org/c/static-variables-in-c/)
+- read() — Read from a file or socket - IBM Documentation help (https://www.ibm.com/docs/en/zos/3.1.0?topic=functions-read-read-from-file-socket)
 
 ### 42 Resources
 
 - 42 School Norm documentation
-- The C Piscine lectures on file I/O
 
 ## AI Usage
 
 AI was used for the following tasks in this project:
 
-- **Debugging and Optimization**: Identifying and explaining the integer overflow vulnerability in `ft_strjoin()` when processing very large lines, and providing corrected code with proper bounds checking
-- **Code Review**: Analyzing the malloc behavior with edge cases and suggesting improvements to memory management
+- **Debugging and Optimization**: Identifying and explaining the integer overflow vulnerability in `ft_strjoin()` when processing very large lines
 - **Documentation**: Generating comprehensive explanations of the algorithm, technical choices, and implementation details for this README
 
 AI did not write the core implementation code; all functionality was developed independently following 42 curriculum requirements.
