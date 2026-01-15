@@ -2,7 +2,7 @@ _This project has been created as part of the 42 curriculum by danimore._
 
 ## Description
 
-`get_next_line` is a C function that reads and returns the next line from a file descriptor, one line at a time. The project focuses on implementing efficient file I/O handling, dynamic memory management, and string manipulation.
+`get_next_line` is a C function that reads and returns the next line from a file descriptor, one line at a time. The project focuses on implementing efficient file I/O handling (open and read), dynamic memory management, and string manipulation.
 
 The primary goal is to create a reusable function that can read from any file descriptor (including standard input) and return complete lines sequentially, making it useful for processing text files, parsing input, and understanding low-level file operations in C.
 
