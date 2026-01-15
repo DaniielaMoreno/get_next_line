@@ -44,5 +44,5 @@ clean:
 	rm -f $(OBJS)
 
 fclean:
-	rm -f $(LIBNAME)
+	rm -f $(LIBNAME) $(MAIN)
 re: fclean all program
