@@ -72,13 +72,6 @@ The `get_next_line` implementation uses a static buffer approach combined with c
 
 7. **Edge Cases**: Handle EOF (no newline at end of file), empty files, and files with no newlines.
 
-### Why This Algorithm?
-
-- **Memory Efficiency**: Reading in small chunks prevents allocating huge buffers for large files
-- **Simplicity**: The cumulative joining approach is straightforward and easy to debug
-- **Correctness**: Preserving state between calls allows seamless multi-line reading
-- **Flexibility**: Works with any file descriptor and buffer size
-
 ### Important Implementation Details
 
 - **Static Variable**: The `line` variable in `get_next_line()` persists between calls, maintaining state across multiple invocations
