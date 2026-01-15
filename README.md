@@ -2,7 +2,7 @@ _This project has been created as part of the 42 curriculum by danimore._
 
 ## Description
 
-`get_next_line` is a C function that reads and returns the next line from a file descriptor, one line at a time. The project focuses on implementing efficient file I/O handling, dynamic memory management, and string manipulation.
+`get_next_line` is a C function that reads and returns the next line from a file descriptor, one line at a time. The project focuses on implementing efficient file I/O handling (open and read), dynamic memory management, and string manipulation.
 
 The primary goal is to create a reusable function that can read from any file descriptor (including standard input) and return complete lines sequentially, making it useful for processing text files, parsing input, and understanding low-level file operations in C.
 
@@ -71,13 +71,6 @@ The `get_next_line` implementation uses a static buffer approach combined with c
 6. **State Preservation**: `ft_rest_line()` extracts any data _after_ the newline and stores it as the new static buffer for the next `get_next_line()` call.
 
 7. **Edge Cases**: Handle EOF (no newline at end of file), empty files, and files with no newlines.
-
-### Why This Algorithm?
-
-- **Memory Efficiency**: Reading in small chunks prevents allocating huge buffers for large files
-- **Simplicity**: The cumulative joining approach is straightforward and easy to debug
-- **Correctness**: Preserving state between calls allows seamless multi-line reading
-- **Flexibility**: Works with any file descriptor and buffer size
 
 ### Important Implementation Details
 
